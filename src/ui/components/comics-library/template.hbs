@@ -1,16 +1,22 @@
-{{!-- src/ui/components/comics-library/template.hbs --}}
 <h1>Comic books library</h1>
 <div class="comics">
-<h2>Comic lists</h2>
-    <ul class="comics-list"></ul>
-  {{#each comics key="@index" as |comic|}}
-      <li class="comic-item">
-          <a href="#">{{comic.title}} by {{comic.scriptwriter}}</a>
-          <button class="delete-comic-item" onclick={{action deleteComic comic}}>Delete</button>
-      </li>
-  {{else}}
-    Sorry,no comic found !
-  {{/each}}
-
+    <h2>Comics list</h2>
+    <ul class="comics-list">
+      {{#each comics key="@index" as |comic|}}
+          <comics-list-item @comic={{comic}}
+                                    @selectItem={{action selectComic}}
+                                    @deleteItem={{action deleteComic}} />
+      {{else}}
+          Sorry, no comic found
+      {{/each}}
+    </ul>
 </div>
 
+<button onclick={{action newComic}}>New Comic</button>
+{{#if current}}
+    <comic-book @comic={{current}} @saveComic={{action saveComic}} />
+{{else}}
+    <p id="no-selected-comic">
+        Please select one comic book for detailled information.
+    </p>
+{{/if}}
